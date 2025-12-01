@@ -30,13 +30,13 @@ def day1pt2(arr):
             pnt += int(i[1:])
             l = False
             r = True
-        fc = pnt // 100
+        fc = abs(pnt) // 100
         pnt %= 100
         if l and temp < pnt or r and temp > pnt:
-            if fc != 0:
-                passw += fc
-            else:
+            if fc == 0:
                 passw += 1
+            else:
+                passw += fc
             if pnt == 0:
                 passw += 1    
     print(passw)
