@@ -19,6 +19,7 @@ def day1pt2(arr):
     passw = 0
     l = False
     r = True
+    fc = 0
     for i in arr:
         temp = pnt
         if i[0] == "L":
@@ -29,13 +30,15 @@ def day1pt2(arr):
             pnt += int(i[1:])
             l = False
             r = True
+        fc = pnt // 100
         pnt %= 100
-        if l and temp < pnt:
-
-        elif r and temp > pnt:
-
-        if pnt == 0:
-            passw += 1
+        if l and temp < pnt or r and temp > pnt:
+            if fc != 0:
+                passw += fc
+            else:
+                passw += 1
+            if pnt == 0:
+                passw += 1    
     print(passw)
 arr = []
 
