@@ -5,10 +5,12 @@ def day1pt1(arr):
     pnt = 50
     passw = 0
     for i in arr:
-        if i[0] == "L":
-            pnt -= int(i[1:])
+        drt = i[0]
+        val = int(i[1:])
+        if drt == "L":
+            pnt -= val
         else:
-            pnt += int(i[1:])
+            pnt += val
         pnt %= 100
         if pnt == 0:
             passw += 1
