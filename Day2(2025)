@@ -1,0 +1,48 @@
+with open('input.txt', 'r') as f:
+    line = f.readline()
+
+def repeat(x):
+    s = str(x)
+    l = len(s)
+    for size in range(1, l // 2 + 1):
+        if l % size != 0:
+            continue
+        b = s[:size]
+        rps = l // size
+        if b * rps == s:
+            return True
+    return False
+
+def day2pt1(nums):
+    invalid = 0
+    for i in range(1, len(nums), 2):
+        a = int(nums[i - 1])
+        b = int(nums[i])
+        num = 1
+        numstr = 11
+        while numstr <= b:
+            if numstr >= a and numstr <= b:
+                invalid += numstr
+            num += 1
+            numstr = int(str(num) * 2)
+    print(invalid)
+
+def day2pt2(nums):
+    invalid = 0
+    for i in range(1, len(nums), 2):
+        a = int(nums[i - 1])
+        b = int(nums[i])
+        for j in range(a, b + 1):
+            if repeat(j):
+                invalid += j
+    print(invalid)
+
+nums = []
+
+for i in line.split(','):
+    a, b = i.split('-')
+    nums.append(a)
+    nums.append(b)
+
+day2pt1(nums)
+day2pt2(nums)
