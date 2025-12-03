@@ -2,20 +2,24 @@ def day3pt2(arr):
     jolt = 0
     for st in arr:
         jolty = ""
-        pos = -1
         nums = [int(i) for i in st]
-        rmng = 12
+        nl = len(nums)
         jl = len(jolty)
+        num = -11
+        pos = -1
+        window = nums
         while jl != 12:
-            window = [pos + 1:len(nums) - rmng]
+            if window[pos + 1] == nums[num]:
+                window = [nums[num]]
+            else:
+                window = nums[pos + 1:num]
             mx = max(window)
             idx = window.index(mx)
             pos += idx + 1
-            rmng -= 1
-            if not window:
-                
+            num += 1
+            jolty += str(mx)
     print(jolt)
         
-arr = ["382731236416461922142149289"]
+arr = ["1494571348724"]
 
 day3pt2(arr)
