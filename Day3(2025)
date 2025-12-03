@@ -1,25 +1,45 @@
+with open('input.txt', 'r') as f:
+    lines = f.readlines()
+
+def day3pt1(arr):
+    jolt = 0
+    for st in arr:
+        jolty = ""
+        nums = []
+        for i in range(len(st) - 1):
+            nums.append(int(st[i]))
+        last = int(st[-1])
+        mx = max(nums)
+        pos = nums.index(mx)
+        nums.append(last)
+        mx2 = max(nums[pos + 1:])
+        jolty += str(mx) + str(mx2)
+        jolt += int(jolty)
+    print(jolt)
+
 def day3pt2(arr):
     jolt = 0
     for st in arr:
         jolty = ""
         nums = [int(i) for i in st]
-        nl = len(nums)
-        jl = len(jolty)
-        num = -11
         pos = -1
-        window = nums
-        while jl != 12:
-            if window[pos + 1] == nums[num]:
-                window = [nums[num]]
-            else:
-                window = nums[pos + 1:num]
+        need = 12  
+        while len(jolty) != 12:
+            end = len(nums) - (need - 1)
+            window = nums[pos+1:end]
             mx = max(window)
             idx = window.index(mx)
             pos += idx + 1
-            num += 1
             jolty += str(mx)
+            need -= 1 
+        jolt += int(jolty)
     print(jolt)
-        
-arr = ["1494571348724"]
 
+
+arr = []
+
+for line in lines:
+    arr.append(line.strip())
+
+day3pt1(arr)
 day3pt2(arr)
