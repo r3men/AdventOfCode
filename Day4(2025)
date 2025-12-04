@@ -50,17 +50,15 @@ def day4pt1(grid):
 def day4pt2(grid):
     fltot = 0
     fl = 1
-
     while fl != 0:
         fl = 0
-        to_remove = []  # <-- added: collect removals
-
+        rm = []
         for i in range(len(grid)):
             for j in range(len(grid[i])):
                 if grid[i][j] == '@':
                     stri = ""
                     if (i == 0 and j == 0) or (i == 0 and j == len(grid[i]) - 1) or (i == len(grid) - 1 and j == 0) or (i == len(grid) - 1 and j == len(grid[i]) - 1):
-                        to_remove.append((i,j))   # <-- changed: queue removal
+                        rm.append((i,j))
                         fl += 1
                         continue
                     elif i > 0 and i < len(grid) - 1 and j == 0:
@@ -98,11 +96,10 @@ def day4pt2(grid):
                         stri += grid[i + 1][j + 1]
 
                     if stri.count('@') < 4:
-                        to_remove.append((i,j))  # <-- changed: queue removal
+                        rm.append((i,j))
                         fl += 1
 
-        # Apply removals AFTER scanning the entire grid
-        for (i,j) in to_remove:
+        for (i,j) in rm:
             grid[i][j] = '.'
 
         fltot += fl
