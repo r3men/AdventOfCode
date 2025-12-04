@@ -1,3 +1,6 @@
+with open('input.txt', 'r') as f:
+    lines = f.readlines()
+
 def day4pt1(grid):
     fl = 0
     for i in range(len(grid)):
@@ -8,11 +11,11 @@ def day4pt1(grid):
                     fl += 1
                     continue
                 elif i > 0 and i < len(grid) - 1 and j == 0:
-                     stri += grid[i - 1][j]
-                     stri += grid[i - 1][j + 1]
-                     stri += grid[i][j + 1]
-                     stri += grid[i + 1][j]
-                     stri += grid[i + 1][j + 1]
+                    stri += grid[i - 1][j]
+                    stri += grid[i - 1][j + 1]
+                    stri += grid[i][j + 1]
+                    stri += grid[i + 1][j]
+                    stri += grid[i + 1][j + 1]
                 elif i == 0 and j > 0 and j < len(grid[i]) - 1:
                     stri += grid[i][j - 1]
                     stri += grid[i][j + 1]
@@ -43,12 +46,76 @@ def day4pt1(grid):
                 if stri.count('@') < 4:
                     fl += 1
     print(fl)
+
+def day4pt2(grid):
+    fltot = 0
+    fl = 1
+
+    while fl != 0:
+        fl = 0
+        to_remove = []  # <-- added: collect removals
+
+        for i in range(len(grid)):
+            for j in range(len(grid[i])):
+                if grid[i][j] == '@':
+                    stri = ""
+                    if (i == 0 and j == 0) or (i == 0 and j == len(grid[i]) - 1) or (i == len(grid) - 1 and j == 0) or (i == len(grid) - 1 and j == len(grid[i]) - 1):
+                        to_remove.append((i,j))   # <-- changed: queue removal
+                        fl += 1
+                        continue
+                    elif i > 0 and i < len(grid) - 1 and j == 0:
+                        stri += grid[i - 1][j]
+                        stri += grid[i - 1][j + 1]
+                        stri += grid[i][j + 1]
+                        stri += grid[i + 1][j]
+                        stri += grid[i + 1][j + 1]
+                    elif i == 0 and j > 0 and j < len(grid[i]) - 1:
+                        stri += grid[i][j - 1]
+                        stri += grid[i][j + 1]
+                        stri += grid[i + 1][j - 1]
+                        stri += grid[i + 1][j]
+                        stri += grid[i + 1][j + 1]
+                    elif i > 0 and i < len(grid) - 1 and j == len(grid[i]) - 1:
+                        stri += grid[i - 1][j - 1]
+                        stri += grid[i - 1][j]
+                        stri += grid[i][j - 1]
+                        stri += grid[i + 1][j - 1]
+                        stri += grid[i + 1][j]
+                    elif i == len(grid) - 1 and j > 0 and j < len(grid[i]) - 1:
+                        stri += grid[i - 1][j - 1]
+                        stri += grid[i - 1][j]
+                        stri += grid[i - 1][j + 1]
+                        stri += grid[i][j - 1]
+                        stri += grid[i][j + 1]
+                    else:
+                        stri += grid[i - 1][j - 1]
+                        stri += grid[i - 1][j]
+                        stri += grid[i - 1][j + 1]
+                        stri += grid[i][j - 1]
+                        stri += grid[i][j + 1]
+                        stri += grid[i + 1][j - 1]
+                        stri += grid[i + 1][j]
+                        stri += grid[i + 1][j + 1]
+
+                    if stri.count('@') < 4:
+                        to_remove.append((i,j))  # <-- changed: queue removal
+                        fl += 1
+
+        # Apply removals AFTER scanning the entire grid
+        for (i,j) in to_remove:
+            grid[i][j] = '.'
+
+        fltot += fl
+
+    print(fltot)
+
 grid = []
-for i in range(140):
-    s = str(input())
-    arr = [i for i in s]
-    grid.append(arr)
+
+for line in lines:
+    arrline = []
+    for i in line:
+        arrline.append(i)
+    grid.append(arrline)
+
 day4pt1(grid)
-                
-                
-            
+day4pt2(grid)
