@@ -2,7 +2,6 @@ def day5pt2(arr1):
     fresh = 0
     maxa = 0
     maxb = 0
-    fresh += maxb - maxa + 1
     for (a, b) in arr1:
         if b > maxb:
             if a > maxa:
