@@ -1,0 +1,28 @@
+def day5pt2(arr1):
+    fresh = 0
+    maxa = arr1[0][0]
+    maxb = arr1[0][1]
+    fresh += maxb - maxa + 1
+    for (a, b) in arr1:
+        if b > maxb:
+            if a > maxa:
+                fresh += b - a + 1
+            else:
+                fresh += b - maxb
+        maxb = max(b, maxb)
+        maxa = max(a, maxb)
+    print(fresh)
+
+arr1 = []
+
+for i in range(186):
+    a, b = map(int, input().split('-'))
+    arr1.append((a, b))
+    
+arr1.sort()
+
+day5pt2(arr1)
+
+
+
+
