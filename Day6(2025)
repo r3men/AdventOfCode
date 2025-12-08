@@ -1,0 +1,62 @@
+import math
+
+with open('input.txt', 'r') as f:
+    lines = f.readlines()
+    for i in range(len(lines)):
+        lines[i] = lines[i].strip()
+def day6pt1(cols):
+    tot = 0
+    for col in cols:
+        sol = 0
+        a, b, c, d = map(int, col[:4])
+        op = col[4]
+        vals = (a, b, c, d)
+        if op == '*':
+            sol = math.prod(vals)
+        else:
+            sol = sum(vals)
+        tot += sol
+    print(tot)
+
+def day6pt2(rows):
+    for i in range(len(rows[0])):
+        if rows[0][i] == rows[1][i] == rows[2][i] == rows[3][i] == " ":
+            rows[0] = rows[0][:i] + ',' + rows[0][i + 1:]
+            rows[1] = rows[1][:i] + ',' + rows[1][i + 1:]
+            rows[2] = rows[2][:i] + ',' + rows[2][i + 1:]
+            rows[3] = rows[3][:i] + ',' + rows[3][i + 1:]
+    for i in range(len(rows) - 1):
+        rows[i] = rows[i].split(",")
+    newset = []
+    for i in range(len(rows[-1])):
+        if rows[-1][i] != " ":
+            newset.append(rows[-1][i])
+    rows[-1] = newset.copy()
+    ans = 0
+    for i in range(len(rows[0]) - 1, -1, -1):
+        nums = [rows[0][i], rows[1][i], rows[2][i], rows[3][i]]
+        biggest = max(len(num) for num in nums)
+        colnums = []
+        for j in range(biggest - 1, -1, -1):
+            colnum = rows[0][i][j] + rows[1][i][j] + rows[2][i][j] + rows[3][i][j]
+            colnums.append(int(colnum))
+        sol = 0
+        if rows[4][i] == '*':
+            sol = math.prod(colnums)
+        else:
+            sol = sum(colnums)
+        ans += sol
+    print(ans)
+
+    
+rows = []
+rows2 = []
+
+for line in lines:
+    rows.append(line.split())
+    rows2.append(line)
+
+cols = [*zip(*rows)]
+
+day6pt1(cols)
+day6pt2(rows2)
