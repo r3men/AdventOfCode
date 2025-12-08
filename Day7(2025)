@@ -21,6 +21,21 @@ def day7pt1(grid):
             else:
                 continue
     print(split)
+
+def day7pt2(grid):
+    cache = {}
+    def dp(i, j):
+        if i >= len(grid) or j >= len(grid[0]):
+            cache[(i, j)] = 1
+        elif (i, j) in cache:
+            pass
+        else:
+            if grid[i][j] == "^":
+                cache[(i, j)] = dp(i, j - 1) + dp(i, j + 1)
+            else:
+                cache[(i, j)] = dp(i + 1, j)
+        return cache[(i, j)]
+    print(dp(2, len(grid[0]) // 2))
     
 grid = []
 
@@ -31,4 +46,5 @@ for line in lines:
         nl.append(line[i])
     grid.append(nl)
 
+day7pt2(grid)
 day7pt1(grid)
