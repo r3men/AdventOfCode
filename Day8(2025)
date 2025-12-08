@@ -1,0 +1,85 @@
+import math
+
+with open('input.txt', 'r') as f:
+    lines = f.readlines()
+    
+def day8pt1(pts):
+    circuits = [set([pt]) for pt in pts]
+    newpts = []
+    for i in range(len(pts)):
+        for j in range(i + 1, len(pts)):
+            x1, y1, z1 = pts[i]
+            x2, y2, z2 = pts[j]
+            distance = (x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2
+            newpts.append((pts[i], pts[j], distance))
+
+    newpts.sort(key=lambda x: x[-1])
+
+    for box1, box2, _ in newpts[:1000]:
+        c1 = c2 = None
+        for c in circuits:
+            if box1 in c:
+                c1 = c
+            if box2 in c:
+                c2 = c
+            if c1 and c2:
+                break
+        if c1 is not None and c2 is not None:
+            if c1 != c2:
+                merged = c1.union(c2)
+                circuits.remove(c1)
+                circuits.remove(c2)
+                circuits.append(merged)
+        elif c1 is not None:
+            c1.add(box2)
+        elif c2 is not None:
+            c2.add(box1)
+
+    newcircuits = sorted(circuits, key=lambda x: len(x), reverse=True)
+    tot = math.prod(len(c) for c in newcircuits[:3])
+    print(tot)
+
+def day8pt2(pts):
+    circuits = [set([pt]) for pt in pts]
+    newpts = []
+    for i in range(len(pts)):
+        for j in range(i + 1, len(pts)):
+            x1, y1, z1 = pts[i]
+            x2, y2, z2 = pts[j]
+            distance = (x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2
+            newpts.append((pts[i], pts[j], distance))
+    lastpair = None
+    newpts.sort(key=lambda x: x[-1])
+    for box1, box2, _ in newpts:
+        c1 = c2 = None
+        for c in circuits:
+            if box1 in c:
+                c1 = c
+            if box2 in c:
+                c2 = c
+            if c1 and c2:
+                break
+        if c1 is not None and c2 is not None:
+            if c1 != c2:
+                merged = c1.union(c2)
+                circuits.remove(c1)
+                circuits.remove(c2)
+                circuits.append(merged)
+        elif c1 is not None:
+            c1.add(box2)
+        elif c2 is not None:
+            c2.add(box1)
+        if len(circuits) == 1:
+            lastpair = (box1, box2)
+            break
+    tot = lastpair[0][0] * lastpair[1][0]
+    print(tot)
+pts = []
+
+for line in lines:
+    line = line.strip()
+    x, y, z = map(int, line.split(','))
+    pts.append((x, y, z))
+
+day8pt1(pts)
+day8pt2(pts)
