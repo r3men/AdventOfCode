@@ -4,6 +4,7 @@ with open('input.txt', 'r') as f:
     lines = f.readlines()
     for i in range(len(lines)):
         lines[i] = lines[i].strip()
+
 def day6pt1(cols):
     tot = 0
     for col in cols:
