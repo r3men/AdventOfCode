@@ -1,0 +1,39 @@
+with open('input.txt', 'r') as f:
+    lines = f.readlines()
+
+def day10pt1(machines):
+    presses = 0
+    for machine in machines:
+        target_str = machine[machine.index("[") + 1 : machine.index("]")]
+        tarnum = 0
+        for idx, c in enumerate(target_str):
+            if c == "#":
+                tarnum |= (1 << idx)
+        buttons = []
+        left = machine.index("]") + 1
+        while "(" in machine[left:]:
+            start = machine.index("(", left) + 1
+            end = machine.index(")", start)
+            group = machine[start:end]
+            mask = 0
+            for i in group.split(','):
+                if i.strip():
+                    mask |= (1 << int(i))
+            buttons.append(mask)
+            left = end + 1
+        n = len(buttons)
+        best = float("inf")
+        for combo in range(1 << n):
+            state = 0
+            pn = 0
+            for i in range(n):
+                if combo & (1 << i):
+                    state ^= buttons[i]
+                    pn += 1
+            if state == tarnum:
+                best = min(best, pn)
+        presses += best
+    print(presses)
+
+machines = [line.strip() for line in lines]
+day10pt1(machines)
