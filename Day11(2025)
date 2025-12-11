@@ -20,8 +20,14 @@ def day11pt2(graph):
     end = "out"
     need1 = "dac"
     need2 = "fft"
+    good1 = False
+    good2 = False
     def dfs(n):
-        if n == end:
+        if n == need1:
+            good1 = True
+        if n == need2:
+            good2 = True
+        if n == end and good1 and good2:
             return 1
         tot = 0
         for nxtn in graph[n]:
