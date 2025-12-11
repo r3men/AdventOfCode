@@ -29,8 +29,8 @@ def day11pt2(graph):
             good1 = True
         if n == need2:
             good2 = True
-        if n == end:
-            return 1 if (good1 and good2) else 0
+        if n == end and (good1 and good2):
+            return 1
         tot = 0
         for nxtn in graph[n]:
             tot += dfs(nxtn, good1, good2)
