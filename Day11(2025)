@@ -1,0 +1,47 @@
+from collections import defaultdict
+
+with open("input.txt", "r") as f:
+    lines = f.readlines()
+
+def day11pt1(graph):
+    start = "you"
+    end = "out"
+    def dfs(n):
+        if n == end:
+            return 1
+        tot = 0
+        for nxtn in graph[n]:
+            tot += dfs(nxtn)
+        return tot
+    print(dfs(start))
+
+def day11pt2(graph):
+    start = "svr"
+    end = "out"
+    need1 = "dac"
+    need2 = "fft"
+    good1 = False
+    good2 = False
+    def dfs(n):
+        if n == need1:
+            good1 = True
+        if n == need2:
+            good2 = True
+        if n == end and good1 and good2:
+            return 1
+        tot = 0
+        for nxtn in graph[n]:
+            tot += dfs(nxtn)
+        return tot
+    print(dfs(start))
+
+graph = defaultdict(list)
+
+for line in lines:
+    line = line.strip()
+    d, o = line.split(":")
+    d = d.strip()
+    o = o.strip().split()
+    graph[d] = o
+
+day11pt1(graph)
