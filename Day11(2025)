@@ -20,20 +20,23 @@ def day11pt2(graph):
     end = "out"
     need1 = "dac"
     need2 = "fft"
-    good1 = False
-    good2 = False
-    def dfs(n):
+    memo = {}
+    def dfs(n, good1, good2):
+        key = (n, good1, good2)
+        if key in memo:
+            return memo[key]
         if n == need1:
             good1 = True
         if n == need2:
             good2 = True
-        if n == end and good1 and good2:
-            return 1
+        if n == end:
+            return 1 if (good1 and good2) else 0
         tot = 0
         for nxtn in graph[n]:
-            tot += dfs(nxtn)
+            tot += dfs(nxtn, good1, good2)
+        memo[key] = tot
         return tot
-    print(dfs(start))
+    print(dfs(start, False, False))
 
 graph = defaultdict(list)
 
@@ -45,3 +48,4 @@ for line in lines:
     graph[d] = o
 
 day11pt1(graph)
+day11pt2(graph)
