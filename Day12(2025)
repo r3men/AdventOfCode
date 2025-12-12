@@ -4,19 +4,16 @@ with open("input.txt", "r") as f:
 def day12pt1(regions):
     good = 0
     for region in regions:
-        a, b = map(int, region[:region.index(":")].split("x"))
+        dimensions, numbers = region.split(":")
+        a, b = map(int, dimensions.split("x"))
         area = a * b
-        ze, on, tw, th, fo, fi = map(int, region[region.index(":"):].split())
-        s = sum(ze, on, tw, th, fo, fi)
-        if a >= s:
+        ze, on, tw, th, fo, fi = map(int, numbers.split())
+        s = sum([ze, on, tw, th, fo, fi]) * 9
+        if area >= s:   
             good += 1
+
     print(good)
-        
-regions = []
 
-for line in lines:
-    line = line.strip()
-    if len(line) > 3:
-        regions.append(line)
+regions = [line.strip() for line in lines if len(line.strip()) > 3]
 
-day12pt1(graph)
+day12pt1(regions)
